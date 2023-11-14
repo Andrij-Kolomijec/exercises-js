@@ -88,15 +88,15 @@ function Tree(arr) {
     preOrder(arr = [], root = this.root) {
       if (!root) return;
       arr.push(root.value);
-      if (root.left) this.inOrder(arr, root.left);
-      if (root.right) this.inOrder(arr, root.right);
+      if (root.left) this.preOrder(arr, root.left);
+      if (root.right) this.preOrder(arr, root.right);
       return arr;
     },
     // left-right-root
     postOrder(arr = [], root = this.root) {
       if (!root) return;
-      if (root.left) this.inOrder(arr, root.left);
-      if (root.right) this.inOrder(arr, root.right);
+      if (root.left) this.postOrder(arr, root.left);
+      if (root.right) this.postOrder(arr, root.right);
       arr.push(root.value);
       return arr;
     },
@@ -175,12 +175,44 @@ function buildTree(arr, start = 0, end = arr.length - 1) {
   return root;
 }
 
-let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const tree = Tree(arr);
-console.log(tree);
-tree.prettyPrint();
-function multiplyByTwo(n) {
-  return n * 2;
+// let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const tree = Tree(arr);
+// console.log(tree);
+// tree.prettyPrint();
+// function multiplyByTwo(n) {
+//   return n * 2;
+// }
+// console.log(tree.order("levelOrder", multiplyByTwo));
+// console.log(tree.depth(324));
+
+function createRandomArray() {
+  let arr = [];
+  const numberOfElements = Math.floor(Math.random() * 100);
+  for (let i = 0; i <= numberOfElements; i++) {
+    arr.push(Math.floor(Math.random() * 100));
+  }
+  return arr;
 }
-console.log(tree.order("levelOrder", multiplyByTwo));
-console.log(tree.depth(324));
+
+let tree = createRandomArray();
+console.log(tree);
+tree = Tree(tree);
+tree.prettyPrint();
+console.log(`Tree is balanced: ${tree.isBalanced()}`);
+console.log(`level order: ${tree.levelOrder()}`);
+console.log(`pre order: ${tree.preOrder()}`);
+console.log(`in order: ${tree.inOrder()}`);
+console.log(`post order: ${tree.postOrder()}`);
+tree.insert(100);
+tree.insert(101);
+tree.insert(110);
+tree.insert(105);
+tree.prettyPrint();
+console.log(`Tree is balanced: ${tree.isBalanced()}`);
+tree.rebalance();
+tree.prettyPrint();
+console.log(`Tree was rebalanced: ${tree.isBalanced()}`);
+console.log(`level order: ${tree.levelOrder()}`);
+console.log(`pre order: ${tree.preOrder()}`);
+console.log(`in order: ${tree.inOrder()}`);
+console.log(`post order: ${tree.postOrder()}`);
