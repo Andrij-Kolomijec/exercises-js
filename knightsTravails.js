@@ -45,23 +45,33 @@ function Graph() {
         }
       }
     },
+
     // uses breadth-first search algorithm
     knightMoves(start, end) {
       const paths = [];
       const visited = new Set();
       const queue = [];
-      /* enqueue the starting position and its path */
+      /* the starting position start is enqueued 
+      along with an array containing only the 
+      starting position [start] - this array 
+      represents the initial path from the 
+      start node to itself */
       queue.push([start, [start]]);
       while (queue.length > 0) {
         /* dequeue a position and its 
         path from the front of the queue */
         let [current, path] = queue.shift();
-        /* mark the current position as visited */
+        /* mark the current position as visited
+         - the while loop goes every possible field
+         - there are 64 fields in total */
         visited.add(current);
         /* check if desired position is the same as current */
         if (current === end) {
           /* if yes, add the path to the list of possible paths */
           paths.push(path);
+          // console.log(paths);
+          /* if break was here, it would end the algorithm 
+          and return first path found - queue is not empty */
         }
         /* get the neighbors of the current 
         position from the chess board */
@@ -70,24 +80,32 @@ function Graph() {
         visited, a new path is created by appending 
         the neighbor to the current path */
         for (let position of neighbors) {
-          /* check if the neighbor has not been visited */
+          /* check if the neighbor has not been visited
+          - ensures that position is not pushed into the path
+          if it was already visited */
           if (!visited.has(position)) {
-            /* Enqueue the neighbor and its path 
-            (path so far + the neighbor) */
+            /* for each neighbor position of the current 
+            node, a new array is enqueued, this array 
+            consists of the current path extended 
+            by the current neighbor position, the spread 
+            operator is used to create a new array 
+            that includes all the elements of the existing 
+            path and adds the current neighbor at the end */
             queue.push([position, [...path, position]]);
           }
         }
       }
-      console.log(`Fastest Routes from ${start} to ${end}`);
+      console.log(`Fastest Routes from ${start} to ${end}:`);
       paths.forEach((element) => console.log(element));
     },
   };
 }
 
-const g = new Graph();
-console.log(g);
-g.addVertices();
-g.addEdges();
-g.knightMoves("0,0", "1,2");
-g.knightMoves("3,1", "2,2");
-g.knightMoves("7,7", "7,6");
+const knightTravails = new Graph();
+console.log(knightTravails);
+knightTravails.addVertices();
+knightTravails.addEdges();
+knightTravails.knightMoves("0,0", "1,2");
+knightTravails.knightMoves("0,0", "2,2");
+knightTravails.knightMoves("5,1", "2,5");
+knightTravails.knightMoves("7,7", "0,0");
